@@ -1,13 +1,13 @@
 require "pig_latinator/version"
 
 module PigLatinator
-  class latin
+  class Transform
 
-    def translate(input)
+    def self.translate(input)
 
       words = []
 
-      vowels = ["a", "e", "i", "o", "u"]
+      vowels = ["A", "a", "E", "e", "I", "i", "O", "o", "U", "u", "Y", "y"]
 
       joiners = [",", " ", "."]
 
@@ -21,17 +21,18 @@ module PigLatinator
       input_char.each_with_index do |char,index|
 
         if joiners.include?(char)
-          array_input << char
           if string.empty?
 
           else
             array_input << string
           end
+          array_input << char
           string = ""
         elsif index + 1 == input_char_length
           if string.empty?
 
           else
+            string = string + char
             array_input << string
             string = ""
           end
@@ -50,8 +51,8 @@ module PigLatinator
         elsif joiners.include?(word)
           new_words << word
         else
-          new_word = word + word[0] + "ay"
-          new_word.splice!(0)
+          new_word = word + word[0].downcase + "ay"
+          new_word.slice!(0)
           new_words << new_word
         end
 
